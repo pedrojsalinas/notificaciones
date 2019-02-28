@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button shape="block" fill="outline" color="medium" (click)=" presentModal()">Responder</ion-button>
+    </ion-buttons>
+    <ion-title>UTPL</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding *ngIf="notificacion">
+  <ion-list>
+    <ion-item-divider>
+      <ion-label>
+        {{notificacion.componente}}
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
+      </ion-avatar>
+      <ion-label text-wrap>
+        <ion-text color="primary">
+          <h3>{{notificacion.docente}}</h3>
+        </ion-text>
+        <p>{{notificacion.fecha}} - {{notificacion.hora}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-text>
+    <p text-justify>{{notificacion.mensaje}}</p>
+  </ion-text>
+
+</ion-content>

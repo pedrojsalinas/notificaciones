@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-title text-center>UTPL</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-avatar class="avatar" margin-top>
+    <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
+  </ion-avatar>
+
+  <ion-list >
+    <ion-item>
+      <ion-label>{{nombres}}</ion-label>
+      <ion-icon name="person" slot="start"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{cedula}}</ion-label>
+      <ion-icon name="finger-print" slot="start"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{correo}}</ion-label>
+      <ion-icon name="at" slot="start"></ion-icon>
+    </ion-item>
+
+<ion-item color="danger" (click)="cerrarSesion()" margin-top>
+      <ion-label>
+        Cerrar Sesión
+      </ion-label>
+      <ion-icon name="log-out" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

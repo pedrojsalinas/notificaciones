@@ -8,42 +8,42 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'notificaciones',
         children: [
           {
             path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
+            loadChildren: '../pages/notificaciones/notificaciones.module#NotificacionesPageModule'
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'mensajes',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
+            loadChildren: '../pages/mensajes/mensajes.module#MensajesPageModule'
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'perfil',
         children: [
           {
             path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
+            loadChildren: '../pages/perfil/perfil.module#PerfilPageModule'
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/notificaciones',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/notificaciones',
     pathMatch: 'full'
   }
 ];

@@ -1,5 +1,7 @@
 {
   "name": "notificaciones-utpl",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

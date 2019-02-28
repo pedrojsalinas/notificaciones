@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>UTPL</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding *ngIf="mensaje">
+  <ion-list>
+    <ion-item-divider>
+      <ion-label>
+        {{mensaje.componente}}
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
+      </ion-avatar>
+      <ion-label text-wrap>
+        <ion-text color="primary">
+          <h3>{{mensaje.docente}}</h3>
+        </ion-text>
+        <p>{{mensaje.fecha}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-text>
+    <p text-justify>{{mensaje.mensaje}}</p>
+  </ion-text>
+
+</ion-content>

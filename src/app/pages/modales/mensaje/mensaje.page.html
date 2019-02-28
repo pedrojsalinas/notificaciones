@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button shape="block" fill="outline" color="primary" (click)=" cerrar()">Cerrar</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button 
+      margin-top 
+      shape="block" 
+      fill="outline" 
+      color="warn" 
+      [disabled]='!mensajeForm.valid' 
+      (click)="enviarMensaje()">
+        Enviar Mensaje
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Responder</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="mensajeForm">
+    <ion-item>
+      <ion-label position="floating">Mensaje</ion-label>
+      <ion-textarea rows="15" id="myInput" formControlName="mensaje"></ion-textarea>
+    </ion-item>
+
+  </form>
+</ion-content>
