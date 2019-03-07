@@ -11,3 +11,8 @@ export interface Asignatura {
     asignatura?: string,
 }
 
+export interface Estado {
+    id?: string,
+    estado?: string,
+}
+

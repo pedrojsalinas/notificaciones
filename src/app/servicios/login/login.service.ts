@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Estudiante } from '../../modelos/estudiante';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 
@@ -26,7 +26,8 @@ export class LoginService {
     private router: Router,
     private nativeStorage: NativeStorage,
     private plt: Platform,
-    private storage: Storage
+    private storage: Storage,
+    public toastController: ToastController,
   ) {
     this.plt.ready().then(() => {
       this.checkToken();
@@ -37,8 +38,6 @@ export class LoginService {
     this.http.get<Estudiante>(`${this.loginUrl}?correo=${estudiante.correo}&cedula=${estudiante.cedula}`, this.httpOptions)
       .subscribe(
         user => {
-          console.log('login');
-          console.log(user);
           if (user.cedula != null) {
             this.storage.set('nombres', user.nombres);
             this.storage.set('correo', user.correo);
@@ -46,23 +45,13 @@ export class LoginService {
               this.authenticationState.next(true);
               this.router.navigate(['']);
             });
-            // this.storage.set('token', user.token);
-            // this.nativeStorage.setItem('estudiante',
-            //   {
-            //     nombres: user.nombres,
-            //     cedula: user.cedula,
-            //     correo: user.correo,
-            //     token: user.token,
-            //   })
-            //   .then(
-            //     () => console.log('estudiante guardado!'),
-            //     error => console.error(error)
-            //   );
+          } else {
+            this.presentToastWithOptions('Correo o contraseña incorrectos.');
           }
         }
       );
   }
-  
+
   checkToken() {
     this.storage.get('cedula').then(res => {
       if (res) {
@@ -81,4 +70,12 @@ export class LoginService {
     return this.authenticationState.value;
   }
 
+  async presentToastWithOptions(mensaje) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: 'danger',
+    });
+    toast.present();
+  }
 }

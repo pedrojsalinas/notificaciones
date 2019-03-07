@@ -26,7 +26,8 @@ export class MensajeService {
     return this.http.get<Mensaje>(`${this.mensajeUrl}?id=${id}`, this.httpOptions);
   }
   insertarMensaje(mensaje: Mensaje) {
-    this.http.get<Mensaje>(`${this.insertarUrl}?mensaje=${mensaje.mensaje}&cod_asignatura=${mensaje.cod_asignatura}`,
+// tslint:disable-next-line: max-line-length
+    this.http.get<Mensaje>(`${this.insertarUrl}?mensaje=${mensaje.mensaje}&cod_asignatura=${mensaje.cod_asignatura}&cod_notificacion=${mensaje.cod_notificacion}&estado=${mensaje.estado}`,
       this.httpOptions)
       .subscribe(message => {
         this.presentToastWithOptions('Mensaje enviado.');

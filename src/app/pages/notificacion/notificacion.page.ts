@@ -4,6 +4,7 @@ import { NotificacionService } from '../../servicios/notificacion/notificacion.s
 import { Notificacion } from '../../modelos/notificacion';
 import { ModalController } from '@ionic/angular';
 import { MensajePage } from '../modales/mensaje/mensaje.page';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-notificacion',
@@ -18,12 +19,21 @@ export class NotificacionPage implements OnInit {
     private route: ActivatedRoute,
     private notificacionService: NotificacionService,
     public modalController: ModalController,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.notificacionService.obtenerNotificacion(this.id).subscribe(notificacion => {
       this.notificacion = notificacion;
+      this.storage.get('cedula')
+        .then(cedula => {
+          this.notificacionService.obtenerEstado(cedula, this.id).subscribe(estado=>{
+            if (estado.estado === '0') {
+              this.notificacionService.actualizarEstado(estado.id);
+            }
+          });
+        });
     });
   }
 

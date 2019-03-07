@@ -1,27 +1,24 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="medium">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title text-center>
-      <ion-icon name="notifications">
-      </ion-icon>
-      UTPL
+      UTPL Notificaciones
     </ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 
 <ion-content padding *ngIf="notificaciones">
-  <ion-searchbar animated placeholder="Buscar"></ion-searchbar>
+  <!-- <ion-searchbar animated placeholder="Buscar"></ion-searchbar> -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Tire para cargar" refreshingSpinner="circles"
       refreshingText="Cargando...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-item-sliding *ngFor="let notificacion of notificaciones">
-    <ion-item>
+  <ion-list>
+    <ion-item *ngFor="let notificacion of notificaciones">
       <ion-avatar slot="start">
         <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
       </ion-avatar>
@@ -37,8 +34,5 @@
         </ion-text>
       </ion-label>
     </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option (click)="unread(item)" color="danger">Eliminar</ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
+  </ion-list>
 </ion-content>

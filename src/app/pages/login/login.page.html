@@ -1,6 +1,6 @@
 <ion-content no-padding class="getstart" color="medium">
   <div id="contenedor">
-    <ion-img src="assets/imagenes/logo.png" id="logo"></ion-img>
+    <ion-img src="../../assets/imagenes/logo.png" id="logo"></ion-img>
   </div>
   <ion-grid class="center-form">
     <ion-row justify-content-center>
@@ -12,7 +12,7 @@
               <ion-input formControlName="correo"></ion-input>
             </ion-item>
             <ion-item color="medium">
-              <ion-label position="floating">Contraseña</ion-label>
+              <ion-label position="floating">Cédula</ion-label>
               <ion-input formControlName="cedula" type="password"></ion-input>
             </ion-item>
             <ion-button expand="block" color="warning" margin-top [disabled]='!loginForm.valid' (click)="login()">INGRESAR</ion-button>

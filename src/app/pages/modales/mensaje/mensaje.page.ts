@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificacionService } from '../../../servicios/notificacion/notificacion.service';
 import { MensajeService } from '../../../servicios/mensaje/mensaje.service';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-mensaje',
   templateUrl: './mensaje.page.html',
@@ -21,16 +21,16 @@ export class MensajePage implements OnInit {
     private fb: FormBuilder,
     private notificacionService: NotificacionService,
     private mensajeService: MensajeService,
-    private nativeStorage: NativeStorage,
+    private storage: Storage,
   ) { }
 
   ngOnInit() {
     this.mensajeForm = this.fb.group({
       mensaje: ['', Validators.required],
     });
-    this.nativeStorage.getItem('estudiante')
-      .then((estudiante) => {
-        this.notificacionService.obtenerAsignatura(estudiante.cedula, this.paralelo).subscribe(paralelo => {
+    this.storage.get('cedula')
+      .then(cedula => {
+        this.notificacionService.obtenerAsignatura(cedula, this.paralelo).subscribe(paralelo => {
           this.asignatura = paralelo.asignatura;
         });
       });
@@ -40,8 +40,10 @@ export class MensajePage implements OnInit {
   }
   enviarMensaje() {
     const mensaje = {
+      cod_notificacion: this.id,
       mensaje: this.mensajeForm.value.mensaje,
-      cod_asignatura: this.asignatura
+      cod_asignatura: this.asignatura,
+      estado: 0,
     };
     this.mensajeService.insertarMensaje(mensaje);
     this.modalController.dismiss();
