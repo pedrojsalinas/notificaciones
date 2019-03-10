@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Notificacion, Asignatura, Estado } from '../../modelos/notificacion';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NotificacionesPage } from 'src/app/pages/notificaciones/notificaciones.page';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +22,21 @@ export class NotificacionService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) { } z
 
-  obtenerNotificaciones(id) {
-    console.log(`Cedula  ${id}`)
-    return this.http.get<Notificacion[]>(`${this.notificacionesUrl}?estudiante=${id}`, this.httpOptions);
+  // obtenerNotificaciones(id) {
+  //   console.log(`Cedula  ${id}`)
+  //   return this.http.get<Notificacion[]>(`${this.notificacionesUrl}?estudiante=${id}`, this.httpOptions);
+  // }
+  obtenerNotificaciones(id): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(`${this.notificacionesUrl}?estudiante=${id}`, this.httpOptions)
+      .pipe(
+        map(notificaciones => {
+          return notificaciones;
+        })
+      );
   }
+
 
   obtenerNotificacion(id) {
     return this.http.get<Notificacion>(`${this.notificacionUrl}?id=${id}`, this.httpOptions);

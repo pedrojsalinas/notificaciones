@@ -15,7 +15,7 @@
       refreshingText="Cargando...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list>
+  <ion-list *ngIf="mensajes.length; else elseTemplate">
     <ion-item *ngFor="let mensaje of mensajes">
       <ion-avatar slot="start">
         <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
@@ -32,5 +32,9 @@
         </ion-text>
       </ion-label>
     </ion-item>
+    <ng-template #elseTemplate>
+      <p>No hay mensajes.</p>
+    </ng-template>
+
   </ion-list>
 </ion-content>

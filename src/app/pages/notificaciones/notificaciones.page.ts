@@ -4,7 +4,8 @@ import { Notificacion } from '../../modelos/notificacion';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { MensajeService } from '../../servicios/mensaje/mensaje.service';
 import { Storage } from '@ionic/storage';
-
+import { Observable } from 'rxjs';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-notificaciones',
@@ -12,30 +13,35 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./notificaciones.page.scss'],
 })
 export class NotificacionesPage implements OnInit {
+  notificaciones: Observable<Notificacion[]>;
   cedula: string;
+  token: string;
 
   constructor(
     private notificacionService: NotificacionService,
     private mensajeService: MensajeService,
     // private nativeStorage: NativeStorage,
     private storage: Storage
-  ) { }
-  notificaciones: Notificacion[] = [];
+    ) {
+      this.cargarNotificaciones();
+  }
 
   ngOnInit() {
-    this.cargarNotificaciones();
+    this.storage.get('cedula')
+      .then(cedula => {
+        this.storage.get('token').then(token => {
+          this.cedula = cedula;
+          this.mensajeService.actualizarToken(cedula, token);
+          this.notificaciones = this.notificacionService.obtenerNotificaciones(cedula);
+        });
+      });
   }
 
   cargarNotificaciones() {
-    this.storage.get('cedula')
-      .then(cedula => {
-        this.notificacionService.obtenerNotificaciones(cedula).subscribe(notificaciones => {
-          this.notificaciones = notificaciones;
-          this.storage.get('token').then(token=>{
-            this.mensajeService.actualizarToken(cedula, token);
-          });
-        });
-      });
+    const source = interval(30000);
+    source.subscribe(x => { // funcion que se ejecuta cada 30 segundos
+      this.notificaciones = this.notificacionService.obtenerNotificaciones(this.cedula);
+    });
   }
 
   doRefresh(event) {
