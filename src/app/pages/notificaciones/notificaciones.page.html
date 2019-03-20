@@ -17,6 +17,14 @@
       refreshingText="Cargando...">
     </ion-refresher-content>
   </ion-refresher>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="componente">
+      <ion-label>General</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="personal">
+      <ion-label>Personales</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   <ion-list>
     <ion-item *ngFor="let notificacion of notificaciones | async">
       <ion-avatar slot="start">
@@ -30,7 +38,10 @@
         <p>{{notificacion.fecha}}</p>
         <ion-text>
           <p>{{ notificacion.mensaje | slice:0:80}}</p>
-          <a [routerLink]="['/notificacion', notificacion.id]">continuar leyendo...</a>
+          <a [routerLink]="['/notificacion', notificacion.id]" *ngIf="!personal">continuar
+            leyendo...</a>
+          <a [routerLink]="['/personal', notificacion.id]" *ngIf="personal">continuar
+            leyendo...</a>
         </ion-text>
       </ion-label>
     </ion-item>

@@ -15,8 +15,16 @@
       refreshingText="Cargando...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngIf="mensajes.length; else elseTemplate">
-    <ion-item *ngFor="let mensaje of mensajes">
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="componente">
+      <ion-label>General</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="personal">
+      <ion-label>Personales</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-list>
+    <ion-item *ngFor="let mensaje of mensajes | async">
       <ion-avatar slot="start">
         <img src="https://digital-switch.com/pruebas/clinicaldana/wp-content/uploads/2018/07/user.png">
       </ion-avatar>
@@ -28,13 +36,13 @@
         <p>{{mensaje.fecha}}</p>
         <ion-text>
           <p>{{ mensaje.mensaje | slice:0:80}}</p>
-          <a [routerLink]="['/mensaje', mensaje.id]">continuar leyendo...</a>
+          <a [routerLink]="['/mensaje', mensaje.id]" *ngIf="!personal">continuar leyendo...</a>
+          <a [routerLink]="['/mensaje-personal', mensaje.id]" *ngIf="personal">continuar
+            leyendo...</a>
         </ion-text>
       </ion-label>
     </ion-item>
-    <ng-template #elseTemplate>
-      <p>No hay mensajes.</p>
-    </ng-template>
+
 
   </ion-list>
 </ion-content>

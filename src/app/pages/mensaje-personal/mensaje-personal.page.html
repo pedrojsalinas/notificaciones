@@ -3,23 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button 
-      shape="block" 
-      fill="outline" 
-      color="medium" 
-      (click)=" presentModal()">Responder</ion-button>
-    </ion-buttons>
     <ion-title>UTPL</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content padding *ngIf="notificacion">
+<ion-content padding *ngIf="mensaje">
   <ion-list>
     <ion-item-divider>
       <ion-label>
-        {{notificacion.componente}}
+        Mensaje
       </ion-label>
     </ion-item-divider>
 
@@ -29,15 +22,15 @@
       </ion-avatar>
       <ion-label text-wrap>
         <ion-text color="primary">
-          <h3>{{notificacion.docente}}</h3>
+          <h3>{{mensaje.docente}}</h3>
         </ion-text>
-        <p>{{notificacion.fecha}}</p>
+        <p>{{mensaje.fecha}}</p>
       </ion-label>
     </ion-item>
   </ion-list>
 
   <ion-text>
-    <p text-justify>{{notificacion.mensaje}}</p>
+    <p text-justify>{{mensaje.mensaje}}</p>
   </ion-text>
 
 </ion-content>

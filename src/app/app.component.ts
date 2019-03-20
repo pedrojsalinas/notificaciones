@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
@@ -18,11 +18,10 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private loginService: LoginService,
-    // private nativeStorage: NativeStorage,
     private router: Router,
     private push: Push,
     private storage: Storage,
-
+    public alertController: AlertController
   ) {
     this.initializeApp();
   }
@@ -32,7 +31,9 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.pushSetup();
-
+      this.platform.backButton.subscribe(() => {
+        this.presentAlert();
+      })
       this.loginService.authenticationState.subscribe(state => {
         if (state) {
           this.router.navigate(['']);
@@ -40,19 +41,30 @@ export class AppComponent {
           this.router.navigate(['/login']);
         }
       });
-
-
-    //   this.nativeStorage.getItem('estudiante')
-    //     .then(estudiante => {
-    //       if (estudiante.cedula) {
-    //         this.router.navigate(['']);
-    //       } else {
-    //         this.router.navigate(['/login']);
-    //       }
-    //     });
     });
   }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Salir',
+      message: 'Quieres salir de la aplicación?',
+      buttons: [
+        {
+          text: 'Si',
+          handler: () => {
+            navigator['app'].exitApp();
+          }
+        }, {
+          text: 'No',
+          handler: () => {
+            this.router.navigate(['']);
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
+  // configuracion notificaciones push firebase
   pushSetup() {
     const options: PushOptions = {
       android: {
@@ -61,7 +73,7 @@ export class AppComponent {
       ios: {
         alert: 'true',
         badge: true,
-      sound: 'false'
+        sound: 'false'
       }
     }
 
@@ -73,10 +85,6 @@ export class AppComponent {
     pushObject.on('registration').subscribe(
       (registration: any) => {
         this.storage.set('token', registration.registrationId)
-        // this.nativeStorage.setItem('estudiante',
-        //   {
-        //     token: registration.registrationId,
-        //   })
           .then(
             () => console.log('token almacenado'),
             error => console.error(error)

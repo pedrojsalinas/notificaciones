@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificacionService } from '../../servicios/notificacion/notificacion.service';
 import { Notificacion } from '../../modelos/notificacion';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { MensajeService } from '../../servicios/mensaje/mensaje.service';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
@@ -16,14 +15,14 @@ export class NotificacionesPage implements OnInit {
   notificaciones: Observable<Notificacion[]>;
   cedula: string;
   token: string;
+  personal = false;
 
   constructor(
     private notificacionService: NotificacionService,
     private mensajeService: MensajeService,
-    // private nativeStorage: NativeStorage,
     private storage: Storage
-    ) {
-      this.cargarNotificaciones();
+  ) {
+    this.cargarNotificaciones();
   }
 
   ngOnInit() {
@@ -36,16 +35,29 @@ export class NotificacionesPage implements OnInit {
         });
       });
   }
+  // detecta cambios
+  segmentChanged(ev: any) {
+    if (ev.detail.value === 'personal') {
+      this.personal = true;
+      this.notificaciones = this.notificacionService.obtenerPersonales(this.cedula);
+    } else {
+      this.personal = false;
+      this.notificaciones = this.notificacionService.obtenerNotificaciones(this.cedula);
+    }
+  }
 
   cargarNotificaciones() {
     const source = interval(30000);
     source.subscribe(x => { // funcion que se ejecuta cada 30 segundos
-      this.notificaciones = this.notificacionService.obtenerNotificaciones(this.cedula);
+      if (this.personal) {
+        this.notificaciones = this.notificacionService.obtenerPersonales(this.cedula);
+      } else {
+        this.notificaciones = this.notificacionService.obtenerNotificaciones(this.cedula);
+      }
     });
   }
 
   doRefresh(event) {
-
     setTimeout(() => {
       event.target.complete();
       this.cargarNotificaciones();

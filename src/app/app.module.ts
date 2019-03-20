@@ -13,14 +13,20 @@ import { NotificacionService } from './servicios/notificacion/notificacion.servi
 import { HttpClientModule } from '@angular/common/http';
 import { MensajePage } from './pages/modales/mensaje/mensaje.page';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+// notificaciones
 import { Push } from '@ionic-native/push/ngx';
+import { MensajePersonalPage } from './pages/modales/mensaje-personal/mensaje-personal.page';
 @NgModule({
   declarations: [
     AppComponent,
-    MensajePage],
-  entryComponents: [MensajePage],
+    MensajePersonalPage,
+    MensajePage,
+  ],
+  entryComponents: [
+    MensajePage,
+    MensajePersonalPage,
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -35,7 +41,6 @@ import { Push } from '@ionic-native/push/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     LoginService,
     NotificacionService,
-    // NativeStorage,
     Push
   ],
   bootstrap: [AppComponent]

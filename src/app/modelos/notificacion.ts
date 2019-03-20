@@ -4,7 +4,11 @@ export interface Notificacion {
     fecha?: string,
     componente?: string,
     docente?: string,
+    cedula?: string,
     paralelo?: string,
+    emisor?: string,
+    receptor?: string,
+    estado?: string,
 }
 export interface Asignatura {
     id?: string,
@@ -15,4 +19,3 @@ export interface Estado {
     id?: string,
     estado?: string,
 }
-

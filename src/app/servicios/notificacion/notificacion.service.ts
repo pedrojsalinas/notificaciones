@@ -15,14 +15,18 @@ export class NotificacionService {
     })
   };
   notificacionesUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/notificaciones.php';
+  personalesUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/personales.php';
   notificacionUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/notificacion.php';
+  personalUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/personal.php';
+  personalEnviadoUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/personalEnviado.php';
   asignaturaUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/asignatura.php';
   estadoUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/estado.php';
   actualizarUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/actualizarEstado.php';
+  actualizarPersonalUrl = 'https://nelsonpupiales.com/Notificacion/WebServiceMovil/api/notificacion/actualizarEstadoPersonal.php';
 
   constructor(
     private http: HttpClient,
-  ) { } z
+  ) { }
 
   // obtenerNotificaciones(id) {
   //   console.log(`Cedula  ${id}`)
@@ -37,9 +41,26 @@ export class NotificacionService {
       );
   }
 
+  obtenerPersonales(id): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(`${this.personalesUrl}?estudiante=${id}`, this.httpOptions)
+      .pipe(
+        map(notificaciones => {
+          return notificaciones;
+        })
+      );
+  }
+
+
 
   obtenerNotificacion(id) {
     return this.http.get<Notificacion>(`${this.notificacionUrl}?id=${id}`, this.httpOptions);
+  }
+  obtenerPersonal(id) {
+    return this.http.get<Notificacion>(`${this.personalUrl}?id=${id}`, this.httpOptions);
+  }
+
+  obtenerPersonalEnviado(id) {
+    return this.http.get<Notificacion>(`${this.personalEnviadoUrl}?id=${id}`, this.httpOptions);
   }
 
   obtenerAsignatura(estudiante, componente) {
@@ -50,6 +71,12 @@ export class NotificacionService {
   }
   actualizarEstado(id) {
     this.http.get(`${this.actualizarUrl}?id=${id}`, this.httpOptions)
+      .subscribe(mensaje => {
+        console.log(mensaje);
+      });
+  }
+  actualizarEstadoPersonal(id) {
+    this.http.get(`${this.actualizarPersonalUrl}?id=${id}`, this.httpOptions)
       .subscribe(mensaje => {
         console.log(mensaje);
       });
